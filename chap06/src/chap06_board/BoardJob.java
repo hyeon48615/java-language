@@ -6,7 +6,7 @@ public class BoardJob {
 	
 	public BoardJob() {}
 	
-	private PostBasic[] postList = new PostBasic[0];
+	public PostBasic[] postList = new PostBasic[0];
 	
 	private int idx = 1;
 	private int postCnt = 0;
@@ -18,14 +18,15 @@ public class BoardJob {
 	// 더미 데이터 생성 메서드
 	public void createDummy() {
 		for(int i=1; i<=100; i++) {
+			int random = (int)(Math.random()*100);
 			if(i%2==0) {
-				PostBasic post = new PostBasic(i,"title"+i, "name", "regDate");
+				PostBasic post = new PostBasic(i,"title"+random, "name", "regDate");
 				registerPost(post);
 			} else if (i%3==0) {
-				PostEvent post = new PostEvent(i,"title"+i, "name", "regDate", "eventDate");
+				PostEvent post = new PostEvent(i,"title"+random, "name", "regDate", "eventDate");
 				registerPost(post);
 			} else {
-				PostNotice post = new PostNotice(i,"title"+i, "name", "regDate", "noticeFile");
+				PostNotice post = new PostNotice(i,"title"+random, "name", "regDate", "noticeFile");
 				registerPost(post);
 			}
 		}
@@ -250,7 +251,7 @@ public class BoardJob {
 			}
 		}
 	}
-	
+
 	// 게시글 조회 메서드 - 게시판 별 게시글
 	public PostBasic[] getPostListByBoard(Board board) {
 		int iterator = 0;
@@ -268,6 +269,60 @@ public class BoardJob {
 		PostBasic[] resultPosts = new PostBasic[iterator];
 		System.arraycopy(searchPosts, 0, resultPosts, 0, resultPosts.length);
 		return resultPosts;
+	}
+	
+	// 게시글 정렬 메서드 - 오름차순
+	public PostBasic[] sortPostListByASC(PostBasic[] posts, String sortField) {
+		PostBasic[] sortedList = new PostBasic[postCnt];
+		PostBasic[] tempList = new PostBasic[postCnt];
+		System.arraycopy(postList, 0, tempList, 0, postList.length);
+		
+		for(int j=0; j<sortedList.length; j++) {
+			int index = -1;
+			String min = null;
+			for(int i=0; i<tempList.length-1; i++) {
+				if(tempList[i] != null) {
+					String value = tempList[i].getValueOfField(sortField);
+					
+					if(min == null || (value != null && value.compareTo(min)<0)) {
+						min = value;
+						index = i;
+					}
+				}
+			}
+			if (index != -1) {
+				sortedList[j] = tempList[index];
+				tempList[index] = null;
+			}
+		}
+		return sortedList;
+	}
+	
+	// 게시글 정렬 메서드 - 내림차순
+	public PostBasic[] sortPostListByDECS(PostBasic[] posts, String sortField) {
+		PostBasic[] sortedList = new PostBasic[postCnt];
+		PostBasic[] tempList = new PostBasic[postCnt];
+		System.arraycopy(postList, 0, tempList, 0, postList.length);
+		
+		for(int j=0; j<sortedList.length; j++) {
+			int index = -1;
+			String max = null;
+			for(int i=0; i<tempList.length-1; i++) {
+				if(tempList[i] != null) {
+					String value = tempList[i].getValueOfField(sortField);
+					
+					if(max == null || (value != null && value.compareTo(max)>0)) {
+						max = value;
+						index = i;
+					}
+				}
+			}
+			if (index != -1) {
+				sortedList[j] = tempList[index];
+				tempList[index] = null;
+			}
+		}
+		return sortedList;
 	}
 	
 	// 게시글 조회 메서드 - 게시판 별 게시글을 페이지네이션한 결과
@@ -313,7 +368,6 @@ public class BoardJob {
 	}
 	
 	// 특정 게시글 조회 메서드 - 인덱스 반환
-	// 특정 게시글 조회 메서드
 	public int getPostDetail(int no) {
 		for(int i=0; i<postList.length; i++) {
 			PostBasic post = postList[i];
