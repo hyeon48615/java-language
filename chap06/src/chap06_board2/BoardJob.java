@@ -132,7 +132,7 @@ public class BoardJob {
 	public static String getFormatStr(String str, int size) {
 		int strByte = getByteLength(str);
 		
-		// 경우1) str이 size 보다 크면 문자열 자른후 반환
+		// 경우1) 문자열이 size 보다 크면 문자열 자른후 반환
 		if(strByte > size) {
 			int sum = 0, index = 0;
 			for(int i=0; i<str.length(); i++) {
@@ -144,7 +144,7 @@ public class BoardJob {
 			}
 			return str.substring(0, index);
 		}
-		// 경우2) str이 size 보다 작으면 공백을 채워 반환
+		// 경우2) 문자열이 size 보다 작으면 공백을 채워 반환
 		else {
 			int d = size - (getByteLength(str) - str.length());
 			return String.format("%-" + d + "s", str);
