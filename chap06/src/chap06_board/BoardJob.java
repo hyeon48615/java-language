@@ -150,6 +150,7 @@ public class BoardJob {
 				System.out.println("게시글이 없습니다.");
 				return;
 			} 
+		
 			getPostListByPage(posts, board);
 			System.out.println(line);
 			

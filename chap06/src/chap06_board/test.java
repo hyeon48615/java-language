@@ -3,21 +3,9 @@ package chap06_board;
 public class test {
 
 	public static void main(String[] args) {
-		BoardJob a = new BoardJob();
-		a.createDummy();
-		
-		PostBasic[] sotredList = new PostBasic[100];
-		PostBasic[] tempList = new PostBasic[100];
-		System.arraycopy(a.postList , 0, tempList, 0, a.postList.length);
-		
-		
-		for(int i=0; i<tempList.length-1; i++) {
-			PostBasic post = tempList[i];
-			if(post instanceof PostBasic) {
-				System.out.println(post.getValueOfField("title"));
-			}
-		}
-		
+		System.out.printf("%-10\t %-20s\t %-20s \n", "제목", "이름", "등록");
+		System.out.printf("%-10.10\t %-20.20s\t %-20.20s \n", "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "이름", "등록");
+		System.out.printf("%-10.10\t %-20.20s\t %-20.20s \n", "제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목", "이름", "등록");
 	}
 
 }
